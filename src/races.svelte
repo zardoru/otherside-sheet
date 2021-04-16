@@ -1,5 +1,5 @@
-<script lang="ts">
-    let race_human = {
+<script lang="ts" context="module">
+    export const race_human = {
         'race_name':'Human',
         'skill_bonus':{
             'Abjuration':0,
@@ -60,7 +60,7 @@
             'Wands (Black Magic)':0
         }
     }
-    let race_elf = {
+    export const race_elf = {
         'race_name':'Elf',
         'skill_bonus':{
             'Evocation': 15,
@@ -89,7 +89,7 @@
             'Blunt':-5
         }
     }
-    let race_dwarf = {
+    export const race_dwarf = {
         'race_name':'Dwarf',
         'skill_bonus':{
             'Medium Armor':10,
@@ -129,7 +129,7 @@
             'Wands':-5
         }
     }
-    let race_felis = {
+    export const race_felis = {
         'race_name':'Felis',
         'skill_bonus':{
             'Medium Armor':15,
@@ -166,7 +166,7 @@
             'Staves':-15
         }
     }
-    let race_canis = {
+    export const race_canis = {
         'race_name':'Canis',
         'skill_bonus':{
             'Illusion':5,
@@ -207,7 +207,7 @@
             'Axes':-5
         }
     }
-    let race_harpy = {
+    export const race_harpy = {
         'race_name':'Harpy',
         'skill_bonus':{
             'Abjuration':10,
@@ -250,7 +250,7 @@
             'Firearms':-10
         }
     }
-    let race_salaash = {
+    export const race_salaash = {
         'race_salaash':'Sal\'ash',
         'skill_bonus':{
             'Necromancy':10,
@@ -290,7 +290,7 @@
             'Staves':-5
         }
     }
-    let race_kitsune = {
+    export const race_kitsune = {
         'race_name':'Kitsune',
         'skill_bonus':{
             'Abjuration':10,
@@ -336,7 +336,7 @@
             'Axes':-10
         }
     }
-    let race_orc = {
+    export const race_orc = {
         'race_name':'Orc',
         'skill_bonus':{
             'Abjuration':5,
@@ -379,7 +379,7 @@
             'Thrown Weapons':-10
         }
     }
-    let race_assembled = {
+    export const race_assembled = {
         'race_name':'Assembled',
         'skill_bonus':{
             'Shield':10,
@@ -416,7 +416,7 @@
             'Archery':-5
         }
     }
-    let race_insectoid = {
+    export const race_insectoid = {
         'race_name':'Insectoid',
         'skill_bonus':{
             'Abjuration':5,
@@ -451,7 +451,7 @@
             'Artillery':-10
         }
     }
-    let race_sylvan = {
+    export const race_sylvan = {
         'race_name':'Sylvan',
         'skill_bonus':{
             'Abjuration':15,
@@ -490,7 +490,7 @@
             'Firearms':-15
         }
     }
-    let race_kobold = {
+    export const race_kobold = {
         'race_name':'Kobold',
         'skill_bonus':{
             'Illusion':5,
@@ -531,7 +531,7 @@
             'Fists':-15
         }
     }
-    let race_dragonkin = {
+    export const race_dragonkin = {
         'race_name':'Dragonkin',
         'skill_bonus':{
             'Abjuration':5,
@@ -591,4 +591,4 @@
             'Wands':5
         }
     }
-    </script>
+</script>

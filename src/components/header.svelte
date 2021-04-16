@@ -19,9 +19,4 @@
         display: flex;
         flex-direction: row;
     }
-
-    .row > .it {
-        flex-grow: 1;
-        margin: 10px;
-    }
 </style>
