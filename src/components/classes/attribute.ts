@@ -1,14 +1,15 @@
 export class Trait {
     name = ""
-    upgraded_value = 1
+    upgraded_value = 0
     racial_bonus = 0
+    class_bonus = 0
 
     get value(): number { // final value
-        return this.upgraded_value + this.racial_bonus;
+        return 100 + this.upgraded_value + this.racial_bonus + this.class_bonus;
     }
 
     set value(v) {
-        this.upgraded_value = v;
+        this.upgraded_value = v - 100;
     }
 
     constructor(name: string) {
@@ -25,17 +26,16 @@ export class Attribute extends Trait {
 }
 
 export class Skill extends Trait {
-    racial_modifier = 0
-
     get value(): number {
-        return Math.min(this.upgraded_value + this.racial_bonus, this.cap);
+        return Math.min(this.upgraded_value, this.cap);
     }
 
     get cap(): number {
-        return 100 + this.racial_modifier
+        return 100 + this.racial_bonus + this.class_bonus
     }
 
     constructor(name: string) {
         super(name);
+        this.upgraded_value = 0;
     }
 }

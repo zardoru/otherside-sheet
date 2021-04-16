@@ -5,23 +5,41 @@
     import {Attribute, Skill} from "./components/classes/attribute";
     import {skill_list} from "./skills";
     import {attributes} from "./attributes";
+    import {races} from "./races";
 
-    let attr = Object.keys(attributes).map(key => new Attribute(attributes[key], key));
-    console.log(attr);
+    let new_attr = () => Object.keys(attributes).map(key => new Attribute(attributes[key], key));
+    let new_skills = () => skill_list.map(x => new Skill(x));
 
-    let sk = skill_list.map(x => new Skill(x));
-    console.log(sk);
+    class Character {
+        name = 'character mcdiceface';
+        _race = 'Human';
+        subrace = '';
+        save_point = 'none yet';
+        player = 'a good one';
+        attributes = new_attr();
+        current_attributes = [];
+        skills = new_skills();
+        items = [];
 
-    let char_data = {
-        'name': 'character mcdiceface',
-        'race': 'nascar',
-        'save point': 'none yet',
-        'player': 'a good one',
-        'attributes': attr,
-        'current_attributes': [],
-        'skills': sk,
-        'items': []
-    };
+        get race(): string {
+            return this._race;
+        }
+
+        set race(value) {
+            this._race = value;
+
+            const cur_race = races[this._race];
+            for (let skill of this.skills) {
+                skill.racial_bonus = cur_race.skill_bonus[skill.name] || 0;
+            }
+
+            for (let attribute of this.attributes) {
+                attribute.racial_bonus = cur_race.attribute_bonus[attribute.short_name] || 0;
+            }
+        }
+    }
+
+    let char_data = new Character();
 </script>
 
 <main>
