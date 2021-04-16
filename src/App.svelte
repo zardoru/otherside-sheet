@@ -20,6 +20,7 @@
         current_attributes = [];
         skills = new_skills();
         items = [];
+        weight = '';
 
         get race(): string {
             return this._race;
@@ -30,7 +31,7 @@
 
             const cur_race = races[this._race];
             for (let skill of this.skills) {
-                skill.racial_bonus = cur_race.skill_bonus[skill.name] || 0;
+                skill.racial_bonus = cur_race.skill_bonus[skill.name] || cur_race.weapon_bonus[skill.name] || 0;
             }
 
             for (let attribute of this.attributes) {

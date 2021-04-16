@@ -30,6 +30,8 @@
 
 <TextInput fieldname="save point" bind:data={char_data.save_point}/>
 
+<TextInput fieldname="weight" bind:data={char_data.weight}/>
+
 <style>
     .row {
         display: flex;
