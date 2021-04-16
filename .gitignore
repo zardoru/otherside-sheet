@@ -4,4 +4,3 @@ public/bundle.*
 package-lock.json
 yarn.lock
 # Project exclude paths
-/public/
