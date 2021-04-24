@@ -1,7 +1,6 @@
 <script lang="ts">
-    import {SkillType} from "./classes/skill.type";
-    import {skill_list} from "../skills";
-    export let skills: Array<SkillType>;
+    import {Skill} from "./classes/attribute";
+    export let skills: Array<Skill>;
 
     // let filters =
 </script>
@@ -19,7 +18,7 @@
 <style>
     .attr-grid {
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr;
+        grid-template-columns: 2fr 1fr 1fr 1fr;
         grid-column-gap: 10%;
     }
 

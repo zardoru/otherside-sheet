@@ -2,43 +2,8 @@
     import CharHeader from './components/header.svelte';
     import AttrView from './components/attributesview.svelte';
     import SkillView from './components/skillsview.svelte';
-    import {Attribute, Skill} from "./components/classes/attribute";
-    import {skill_list} from "./skills";
-    import {attributes} from "./attributes";
-    import {races} from "./races";
-
-    let new_attr = () => Object.keys(attributes).map(key => new Attribute(attributes[key], key));
-    let new_skills = () => skill_list.map(x => new Skill(x));
-
-    class Character {
-        name = 'character mcdiceface';
-        _race = 'Human';
-        subrace = '';
-        save_point = 'none yet';
-        player = 'a good one';
-        attributes = new_attr();
-        current_attributes = [];
-        skills = new_skills();
-        items = [];
-        weight = '';
-
-        get race(): string {
-            return this._race;
-        }
-
-        set race(value) {
-            this._race = value;
-
-            const cur_race = races[this._race];
-            for (let skill of this.skills) {
-                skill.racial_bonus = cur_race.skill_bonus[skill.name] || cur_race.weapon_bonus[skill.name] || 0;
-            }
-
-            for (let attribute of this.attributes) {
-                attribute.racial_bonus = cur_race.attribute_bonus[attribute.short_name] || 0;
-            }
-        }
-    }
+    import ItemView from './components/itemview.svelte';
+    import {Character} from './components/classes/character.ts';
 
     let char_data = new Character();
 </script>
@@ -57,8 +22,9 @@
         <h1>skills</h1>
         <SkillView bind:skills={char_data.skills}/>
     </div>
-    <div>
+    <div style="width: 90%">
         <h1>items</h1>
+        <ItemView bind:items={char_data.items}/>
     </div>
 </main>
 

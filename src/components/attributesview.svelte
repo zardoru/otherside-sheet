@@ -1,13 +1,7 @@
 <script lang="ts">
-    import {AttributeType} from "./classes/attribute.type";
-    export let attributes: Array<AttributeType>;
+    import {Attribute} from "./classes/attribute";
 
-    function getAttrDisplayName(attr: AttributeType) {
-        if (attr.short_name !== null)
-            return `${attr.name} (${attr.short_name})`
-        else
-            return attr.name;
-    }
+    export let attributes: Array<Attribute>;
 </script>
 
 <div class="attr-grid">
