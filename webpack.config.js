@@ -1,4 +1,5 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const ReplacePlugin = require('webpack-plugin-replace');
 const path = require('path');
 const sveltePreprocess = require('svelte-preprocess');
 
@@ -63,6 +64,13 @@ module.exports = {
 		new MiniCssExtractPlugin({
 			filename: '[name].css'
 		})
+		// ,
+		// new ReplacePlugin({
+		// 	exclude: /node_modules/,
+		// 	values: {
+		// 		'API_ENDPOINT': prod ? '' : 'http://localhost:3000/',
+		// 	}
+		// })
 	],
 	devtool: prod ? false : 'source-map',
 	devServer: {

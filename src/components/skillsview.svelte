@@ -2,7 +2,7 @@
     import {Skill} from "./classes/attribute";
     export let skills: Array<Skill>;
 
-    // let filters =
+    let filters;
 </script>
 
 <div class="attr-grid">

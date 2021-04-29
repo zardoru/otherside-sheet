@@ -16,6 +16,16 @@ export class Trait {
     constructor(name: string) {
         this.name = name;
     }
+
+    as_json() {
+        return {
+            name: this.name,
+            upgraded_value: this.upgraded_value,
+            racial_bonus: this.racial_bonus,
+            class_bonus: this.class_bonus,
+            start_value: this.start_value
+        };
+    }
 }
 
 export class Attribute extends Trait {
@@ -27,19 +37,55 @@ export class Attribute extends Trait {
             this.start_value = start_value;
         }
     }
+
+    as_json(): any {
+        let o = super.as_json()
+        return Object.assign(o, {
+            short_name: this.short_name
+        });
+    }
+
+    static from_json(x): Attribute {
+        let attr = new Attribute('', '', 0);
+        attr.name = x.name;
+        attr.short_name = x.short_name;
+        attr.upgraded_value = x.upgraded_value;
+        attr.racial_bonus = x.racial_bonus;
+        attr.class_bonus = x.class_bonus;
+        attr.start_value = x.start_value;
+        return attr;
+    }
 }
 
 export class Skill extends Trait {
+    category = "";
     get value(): number {
         return Math.min(this.upgraded_value, this.cap);
     }
 
     get cap(): number {
-        return 100 + this.racial_bonus + this.class_bonus
+        return 100 + this.racial_bonus + this.class_bonus;
     }
 
-    constructor(name: string) {
+    constructor(name: string, category: string) {
         super(name);
         this.upgraded_value = 0;
+    }
+
+    as_json() {
+        return Object.assign(super.as_json(), {
+            category: this.category
+        })
+    }
+
+    static from_json(x): Skill {
+        let skill = new Skill('', '');
+        skill.name = x.name;
+        skill.upgraded_value = x.upgraded_value;
+        skill.racial_bonus = x.racial_bonus;
+        skill.class_bonus = x.class_bonus;
+        skill.start_value = x.start_value;
+        skill.category = x.category;
+        return skill;
     }
 }

@@ -4,11 +4,40 @@
     import SkillView from './components/skillsview.svelte';
     import ItemView from './components/itemview.svelte';
     import {Character} from './components/classes/character.ts';
+    import {Backend} from "./components/backend";
 
     let char_data = new Character();
+    let discord_url;
+
+    async function save_character() {
+        const j = char_data.as_json();
+        const key = prompt("authorization key to save?");
+        const status = await Backend.SaveCharacter(key, j);
+        if (status != 200) {
+            alert("sorry. couldn't save character. check your auth key");
+        }
+    }
+
+    async function load_character() {
+        const pn = prompt("player name to load?");
+        const data = await Backend.LoadCharacter(pn);
+
+        console.log(data);
+        if (data == null)
+            alert("couldn't load character data. probably doesn't exist.");
+        else
+            char_data = Character.from_json(data);
+    }
 </script>
 
 <main>
+    <div style="grid-column-start:1; grid-column-end: span 2">
+        <input type="button" value="save" on:click={save_character}>
+        <input type="button" value="load" on:click={load_character}>
+
+        <input type="text" id="hook" bind:value={discord_url} placeholder="enter discord webhook url">
+    </div>
+
     <div>
         <h1>character</h1>
         <CharHeader bind:char_data={char_data}/>
