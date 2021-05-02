@@ -70,6 +70,7 @@ export class Skill extends Trait {
     constructor(name: string, category: string) {
         super(name);
         this.upgraded_value = 0;
+        this.category = category;
     }
 
     as_json() {

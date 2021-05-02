@@ -1,5 +1,5 @@
 import {Attribute, Skill} from "./attribute";
-import {skill_list} from "./data/skills";
+import {categorized_skill_list, skill_list} from "./data/skills";
 import {attributes} from "./data/attributes";
 import {races} from "./data/races";
 
@@ -65,8 +65,18 @@ export class Item {
     }
 }
 
+function get_skill_category(skill_name) {
+    for (let key in categorized_skill_list) {
+        for (let value of categorized_skill_list[key]) {
+            if (value == skill_name) {
+                return key;
+            }
+        }
+    }
+}
+
 let new_attr = () => Object.keys(attributes).map(key => new Attribute(attributes[key], key, key == "MP" ? 50 : 100));
-let new_skills = () => skill_list.map(x => new Skill(x));
+let new_skills = () => skill_list.map(x => new Skill(x, get_skill_category(x)));
 
 export class Character {
     name = 'character mcdiceface';
