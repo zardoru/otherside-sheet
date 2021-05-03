@@ -9,7 +9,7 @@
     let char_data = new Character();
     let discord_url;
 
-    async function save_character() {
+    async function saveCharacter() {
         const j = char_data.as_json();
         const key = prompt("authorization key to save?");
         const status = await Backend.SaveCharacter(key, j);
@@ -18,7 +18,7 @@
         }
     }
 
-    async function load_character() {
+    async function loadCharacter() {
         const pn = prompt("player name to load?");
         const data = await Backend.LoadCharacter(pn);
 
@@ -28,12 +28,30 @@
         else
             char_data = Character.from_json(data);
     }
+
+    async function rollSkill(event) {
+        let msg = `${char_data.name} rolls ${event.detail.roll_value} against ${event.detail.roll_target} using skill ${event.detail.skill_name}. `;
+
+        if (discord_url != null && discord_url != '') {
+            await fetch(discord_url, {
+                body: JSON.stringify({
+                    content: msg
+                }),
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+        }
+
+        alert(msg);
+    }
 </script>
 
 <main>
     <div style="grid-column-start:1; grid-column-end: span 2">
-        <input type="button" value="save" on:click={save_character}>
-        <input type="button" value="load" on:click={load_character}>
+        <input type="button" value="save" on:click={saveCharacter}>
+        <input type="button" value="load" on:click={loadCharacter}>
 
         <input type="text" id="hook" bind:value={discord_url} placeholder="enter discord webhook url">
     </div>
@@ -49,7 +67,7 @@
     </div>
     <div>
         <h1>skills</h1>
-        <SkillView bind:skills={char_data.skills}/>
+        <SkillView bind:skills={char_data.skills} on:roll={rollSkill}/>
     </div>
     <div style="width: 90%">
         <h1>items</h1>
