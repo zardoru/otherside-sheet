@@ -1,6 +1,6 @@
 <script lang="ts">
-    import TextInput from './input/textinput.svelte';
-    import {race_list} from "./classes/data/races";
+    import TextInput from '../input/textinput.svelte';
+    import {race_list} from "../classes/data/races";
 
     export let char_data;
     let selected_race = race_list[0].race_name;
@@ -8,6 +8,8 @@
     function onRaceChange() {
         char_data.race = selected_race;
     }
+
+    onRaceChange();
 </script>
 
 <div class="row">

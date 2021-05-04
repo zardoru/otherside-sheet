@@ -1,5 +1,5 @@
 <script lang="ts">
-    import {Attribute} from "./classes/attribute";
+    import {Attribute} from "../classes/attribute";
 
     export let attributes: Array<Attribute>;
 </script>

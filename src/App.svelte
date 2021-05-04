@@ -1,94 +1,77 @@
 <script lang="ts">
-    import CharHeader from './components/header.svelte';
-    import AttrView from './components/attributesview.svelte';
-    import SkillView from './components/skillsview.svelte';
-    import ItemView from './components/itemview.svelte';
     import {Character} from './components/classes/character.ts';
     import {Backend} from "./components/backend";
+    import CharSheet from './components/charsheet';
 
     let char_data = new Character();
     let discord_url;
+    let current_user = null;
 
     async function saveCharacter() {
         const j = char_data.as_json();
-        const key = prompt("authorization key to save?");
-        const status = await Backend.SaveCharacter(key, j);
-        if (status != 200) {
-            alert("sorry. couldn't save character. check your auth key");
+        try {
+            await Backend.SaveCharacter(current_user, j, discord_url);
+            alert("character saved!");
+        } catch (err) {
+            alert("sorry. couldn't save character: " + err);
         }
     }
 
     async function loadCharacter() {
-        const pn = prompt("player name to load?");
-        const data = await Backend.LoadCharacter(pn);
-
-        console.log(data);
-        if (data == null)
-            alert("couldn't load character data. probably doesn't exist.");
-        else
+        try {
+            const [data, url] = await Backend.LoadCharacter(current_user);
             char_data = Character.from_json(data);
-    }
-
-    async function rollSkill(event) {
-        let msg = `${char_data.name} rolls ${event.detail.roll_value} against ${event.detail.roll_target} using skill ${event.detail.skill_name}. `;
-
-        if (discord_url != null && discord_url != '') {
-            await fetch(discord_url, {
-                body: JSON.stringify({
-                    content: msg
-                }),
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
+            discord_url = url;
+        } catch (e) {
+            alert("couldn't load character data: " + e);
         }
-
-        alert(msg);
     }
+
+    async function login() {
+        try {
+            current_user = await Backend.Login("agka", "123456");
+            alert("logged in successfully.");
+
+            try {
+                const [data, url] = await Backend.LoadCharacter(current_user);
+                char_data = Character.from_json(data);
+                discord_url = url;
+            } catch (e) {
+                return;
+            }
+        } catch (err) {
+            alert("failure logging in: " + err);
+        }
+    }
+
+
 </script>
 
 <main>
     <div style="grid-column-start:1; grid-column-end: span 2">
-        <input type="button" value="save" on:click={saveCharacter}>
-        <input type="button" value="load" on:click={loadCharacter}>
+        {#if current_user !== null}
+            logged in as <b>{current_user.get("username")}</b>
+            <br>
+            <input type="button" value="save" on:click={saveCharacter}>
+            <input type="button" value="load" on:click={loadCharacter}>
+
+        {:else}
+            <input type="button" value="login" on:click={login}>
+        {/if}
 
         <input type="text" id="hook" bind:value={discord_url} placeholder="enter discord webhook url">
     </div>
 
-    <div>
-        <h1>character</h1>
-        <CharHeader bind:char_data={char_data}/>
-    </div>
-
-    <div>
-        <h1>attributes</h1>
-        <AttrView bind:attributes={char_data.attributes}/>
-    </div>
-    <div>
-        <h1>skills</h1>
-        <SkillView bind:skills={char_data.skills} on:roll={rollSkill}/>
-    </div>
-    <div style="width: 90%">
-        <h1>items</h1>
-        <ItemView bind:items={char_data.items}/>
+    <div class="contain">
+        <CharSheet bind:char_data={char_data} bind:discord_url={discord_url}/>
     </div>
 </main>
 
 <style>
-    main {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        grid-column-gap: 0.2fr;
-        width: 100%;
-        border: 4px solid;
-        padding: 10px;
-    }
 
-    main > div {
-        margin: 5px;
-        padding: 10px;
-        justify-self: left;
+
+    .contain {
+        width: 100%;
     }
 
 </style>

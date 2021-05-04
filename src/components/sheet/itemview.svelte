@@ -1,5 +1,5 @@
 <script lang="ts">
-    import {Item} from "./classes/character";
+    import {Item} from "../classes/character";
 
     export let items: Array<Item>;
 

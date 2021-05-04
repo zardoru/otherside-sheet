@@ -1,6 +1,6 @@
 <script lang="ts">
-    import {Skill} from "./classes/attribute";
-    import {categorized_skill_list} from "./classes/data/skills";
+    import {Skill} from "../classes/attribute";
+    import {categorized_skill_list} from "../classes/data/skills";
     import {createEventDispatcher} from "svelte";
 
     const dispatch = createEventDispatcher();
