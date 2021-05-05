@@ -1,6 +1,6 @@
 import {Attribute, Skill} from "./attribute";
 import {categorized_skill_list, skill_list} from "./data/skills";
-import {attributes} from "./data/attributes";
+import {attribute_start_value, attributes} from "./data/attributes";
 import {races} from "./data/races";
 
 export class Equipment {
@@ -44,7 +44,7 @@ export class Item {
     name = ''
     description = '';
     uses = 0
-    weight = 0
+    weight = ''
 
     as_json() {
         return {
@@ -75,7 +75,10 @@ function get_skill_category(skill_name) {
     }
 }
 
-let new_attr = () => Object.keys(attributes).map(key => new Attribute(attributes[key], key, key == "MP" ? 50 : 100));
+let new_attr = () => Object.keys(attributes).map(key => {
+    let start_value = attribute_start_value[key] || 1;
+    return new Attribute(attributes[key], key, start_value);
+});
 let new_skills = () => skill_list.map(x => new Skill(x, get_skill_category(x)));
 
 export class Character {
@@ -88,6 +91,9 @@ export class Character {
     skills = new_skills();
     items: Array<Item> = [];
     weight = '';
+    height = '';
+    color = '';
+    hand = '';
     equipment = new Equipment();
     gold = 0;
     char_class = '';
@@ -125,7 +131,10 @@ export class Character {
             equipment: this.equipment.as_json(),
             gold: this.gold,
             char_class: this.char_class,
-            class_level: this.class_level
+            class_level: this.class_level,
+            height: this.height,
+            color: this.color,
+            hand: this.hand
         };
     }
 
@@ -143,6 +152,9 @@ export class Character {
         char.gold = json.gold;
         char.char_class = json.char_class;
         char.class_level = json.class_level;
+        char.height = json.height;
+        char.color = json.color;
+        char.hand = json.hand;
 
         return char
     }

@@ -44,6 +44,19 @@
     <div>
         <h1>attributes</h1>
         <AttrView bind:attributes={char_data.attributes}/>
+
+        <h2>class</h2>
+
+        <div class="row">
+            <div class="textin" style="flex-grow: 7">
+                <div class="fieldname textname"> <b> class </b></div>
+                <input type="text" bind:value={char_data.char_class}>
+            </div>
+            <div class="textin">
+                <div class="fieldname textname"> <b> level </b></div>
+                <input type="number" bind:value={char_data.class_level}>
+            </div>
+        </div>
     </div>
     <div>
         <h1>skills</h1>
@@ -59,14 +72,15 @@
     .sheet {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        grid-column-gap: 0.2fr;
-        width: 100%;
+        grid-column-gap: 0.5fr;
+        width: 98%;
         border: 4px solid;
-        padding: 10px;
+        margin: auto;
+        padding: 1%;
     }
 
     .sheet > div {
-        padding: 10px;
         justify-self: left;
+        padding: 20px;
     }
 </style>

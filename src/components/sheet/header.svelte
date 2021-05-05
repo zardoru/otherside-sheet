@@ -3,13 +3,6 @@
     import {race_list} from "../classes/data/races";
 
     export let char_data;
-    let selected_race = race_list[0].race_name;
-
-    function onRaceChange() {
-        char_data.race = selected_race;
-    }
-
-    onRaceChange();
 </script>
 
 <div class="row">
@@ -20,7 +13,7 @@
 <div class="row">
     <div class="textin">
         <div class="fieldname textname"> <b>race</b> </div>
-        <select bind:value={selected_race} on:blur={onRaceChange} on:change={onRaceChange}>
+        <select bind:value={char_data.race}>
             {#each race_list as race}
                 <option value={race.race_name}>{race.race_name}</option>
             {/each}
@@ -32,27 +25,19 @@
 
 <TextInput fieldname="save point" bind:data={char_data.save_point}/>
 
-<TextInput fieldname="weight" bind:data={char_data.weight}/>
-
-<div class="row">
-    <div class="textin" style="flex-grow: 7">
-        <div class="fieldname textname"> <b> class </b></div>
-        <input type="text" bind:value={char_data.char_class}>
-    </div>
-    <div class="textin">
-        <div class="fieldname textname"> <b> level </b></div>
-        <input type="number" bind:value={char_data.class_level}>
-    </div>
-</div>
-
 <div class="textin">
     <div class="fieldname textname"> <b> gold </b></div>
     <input type="number" bind:value={char_data.gold}>
 </div>
 
-<style>
-    .row {
-        display: flex;
-        flex-direction: row;
-    }
-</style>
+<h2>appearance</h2>
+<div class="row">
+    <TextInput fieldname="weight" bind:data={char_data.weight}/>
+    <TextInput fieldname="height" bind:data={char_data.height}/>
+</div>
+
+<div class="row">
+    <TextInput fieldname="color" bind:data={char_data.color}/>
+    <TextInput fieldname="hand" bind:data={char_data.hand}/>
+</div>
+

@@ -13,8 +13,20 @@ export class Trait {
         this.upgraded_value = v - 100;
     }
 
+    get cap(): number {
+        return 100 + this.racial_bonus + this.class_bonus;
+    }
+
     constructor(name: string) {
         this.name = name;
+    }
+
+    get isPositiveBonus() {
+        return this.racial_bonus + this.class_bonus > 0;
+    }
+
+    get isNegativeBonus() {
+        return this.racial_bonus + this.class_bonus < 0;
     }
 
     as_json() {
@@ -29,19 +41,44 @@ export class Trait {
 }
 
 export class Attribute extends Trait {
+    current_value = 0
     short_name: string = ""
+
     constructor(name: string, short_name: string, start_value: number) {
         super(name);
         this.short_name = short_name;
         if (start_value != null) {
             this.start_value = start_value;
         }
+
+        this.current_value = this.start_value;
+    }
+
+    get temporal_cap():number {
+        return this.start_value + this.upgraded_value;
+    }
+
+    get capped_current_value(): number {
+        return Math.max(Math.min(this.current_value, this.temporal_cap), 0);
+    }
+
+    set capped_current_value(v: number) {
+        this.current_value = Math.max(Math.min(v, this.temporal_cap), 0);
+    }
+
+    get value(): number { // final value
+        return Math.min(this.start_value + this.upgraded_value, this.cap);
+    }
+
+    set value(v) {
+        this.upgraded_value = Math.min(v - this.start_value, this.cap);
     }
 
     as_json(): any {
         let o = super.as_json()
         return Object.assign(o, {
-            short_name: this.short_name
+            short_name: this.short_name,
+            current_value: this.current_value
         });
     }
 
@@ -53,6 +90,7 @@ export class Attribute extends Trait {
         attr.racial_bonus = x.racial_bonus;
         attr.class_bonus = x.class_bonus;
         attr.start_value = x.start_value;
+        attr.current_value = x.current_value
         return attr;
     }
 }
@@ -60,11 +98,8 @@ export class Attribute extends Trait {
 export class Skill extends Trait {
     category = "";
     get value(): number {
-        return Math.min(this.upgraded_value, this.cap);
-    }
-
-    get cap(): number {
-        return 100 + this.racial_bonus + this.class_bonus;
+        let effective = this.upgraded_value + this.class_bonus + this.racial_bonus;
+        return Math.max(Math.min(effective, this.cap), 1);
     }
 
     constructor(name: string, category: string) {

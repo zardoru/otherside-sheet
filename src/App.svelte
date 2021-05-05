@@ -54,7 +54,6 @@
             <br>
             <input type="button" value="save" on:click={saveCharacter}>
             <input type="button" value="load" on:click={loadCharacter}>
-
         {:else}
             <input type="button" value="login" on:click={login}>
         {/if}
@@ -62,9 +61,7 @@
         <input type="text" id="hook" bind:value={discord_url} placeholder="enter discord webhook url">
     </div>
 
-    <div class="contain">
-        <CharSheet bind:char_data={char_data} bind:discord_url={discord_url}/>
-    </div>
+    <CharSheet bind:char_data={char_data} bind:discord_url={discord_url}/>
 </main>
 
 <style>

@@ -27,6 +27,14 @@
         })
     }
 
+    function rollCombatOffhand(skill: Skill) {
+        return () => dispatch('roll', {
+            skill_name: skill.name,
+            roll_target: 50 + Math.floor(skill.value / 4),
+            roll_value: 1 + Math.round(Math.random() * 99)
+        })
+    }
+
     // TODO
     function rollGeneric(skill: Skill) {
         return () => dispatch('roll', {
@@ -52,6 +60,9 @@
            class="filter"
            class:active={current_filter == null}>
 </div>
+
+<br>
+
 <div class="attr-grid">
     <b>name</b> <b>upgraded</b> <b>current</b> <b>max</b> <b></b>
     {#each skills as skill}
@@ -59,11 +70,17 @@
             <div class="fieldname"> <b>{skill.name}</b> </div>
             <input type="number" class="smaller" bind:value={skill.upgraded_value}>
             <div class="fieldname"> {skill.value} </div>
-            <div class="cap fieldname"> {skill.cap} </div>
+            <div class="fieldname"
+                 class:cap={skill.cap == 100}
+                 class:positive_cap={skill.cap > 100}
+                 class:negative_cap={skill.cap < 100}> {skill.cap} </div>
             {#if skill.category === "weapons"}
-                <input type="button" on:click={rollCombat(skill)} value="roll">
+                <div class="row">
+                <input type="button" on:click={rollCombat(skill)} value="roll" class="roll">
+                    <input type="button" on:click={rollCombatOffhand(skill)} value="offhand" class="roll">
+                </div>
             {:else}
-                <input type="button" on:click={rollGeneric(skill)} value="roll">
+                <input type="button" on:click={rollGeneric(skill)} value="roll" class="roll">
             {/if}
 
         {/if}
@@ -73,7 +90,7 @@
 <style>
     .attr-grid {
         display: grid;
-        grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+        grid-template-columns: 3fr 1fr 1fr 1fr 3fr;
         grid-column-gap: 10%;
     }
 
@@ -95,11 +112,26 @@
         background-color: #b3fffa;
     }
 
+    input[type=button].roll {
+        border: none;
+        color: blue;
+        background-color: white;
+        width: 100%;
+    }
+
     .smaller {
         width: 50%;
     }
 
     .cap {
         color: #999999;
+    }
+
+    .positive_cap {
+        color: #23991f;
+    }
+
+    .negative_cap {
+        color: #991f21;
     }
 </style>
