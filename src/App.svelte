@@ -2,7 +2,10 @@
     import {Character} from './components/classes/character.ts';
     import {Backend} from "./components/backend";
     import CharSheet from './components/charsheet';
+    import Modal from './components/modal'
+    import Login from './components/login'
 
+    let loginModal;
     let char_data = new Character();
     let discord_url;
     let current_user = null;
@@ -27,9 +30,18 @@
         }
     }
 
-    async function login() {
+    async function openLoginModal() {
+        loginModal.open();
+    }
+
+    function closeLoginModal(e) {
+        loginModal.close();
+    }
+
+    async function login(event) {
         try {
-            current_user = await Backend.Login("agka", "123456");
+            current_user = await Backend.Login(event.detail.user, event.detail.password);
+            closeLoginModal(null);
             alert("logged in successfully.");
 
             try {
@@ -43,8 +55,6 @@
             alert("failure logging in: " + err);
         }
     }
-
-
 </script>
 
 <main>
@@ -55,7 +65,7 @@
             <input type="button" value="save" on:click={saveCharacter}>
             <input type="button" value="load" on:click={loadCharacter}>
         {:else}
-            <input type="button" value="login" on:click={login}>
+            <input type="button" value="login" on:click={openLoginModal}>
         {/if}
 
         <input type="text" id="hook" bind:value={discord_url} placeholder="enter discord webhook url">
@@ -64,11 +74,6 @@
     <CharSheet bind:char_data={char_data} bind:discord_url={discord_url}/>
 </main>
 
-<style>
-
-
-    .contain {
-        width: 100%;
-    }
-
-</style>
+<Modal bind:this={loginModal}>
+    <Login on:login={login} on:close={closeLoginModal}/>
+</Modal>
