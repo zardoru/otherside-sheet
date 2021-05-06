@@ -42,6 +42,7 @@ export class Trait {
 
 export class Attribute extends Trait {
     current_value = 0
+    levelup_bonus = 0
     short_name: string = ""
 
     constructor(name: string, short_name: string, start_value: number) {
@@ -54,18 +55,20 @@ export class Attribute extends Trait {
         this.current_value = this.start_value;
     }
 
+    // These are for temporal attributes (HP/MP) and use different cap rules.
     get temporal_cap():number {
-        return this.start_value + this.upgraded_value;
+        return this.start_value + this.upgraded_value + this.class_bonus + this.levelup_bonus;
     }
 
-    get capped_current_value(): number {
+    get temporal_current_value(): number {
         return Math.max(Math.min(this.current_value, this.temporal_cap), 0);
     }
 
-    set capped_current_value(v: number) {
+    set temporal_current_value(v: number) {
         this.current_value = Math.max(Math.min(v, this.temporal_cap), 0);
     }
 
+    // These are for permanent attributes (Str, Cha, etc..) and use the regular cap.
     get value(): number { // final value
         return Math.min(this.start_value + this.upgraded_value, this.cap);
     }
@@ -78,7 +81,8 @@ export class Attribute extends Trait {
         let o = super.as_json()
         return Object.assign(o, {
             short_name: this.short_name,
-            current_value: this.current_value
+            current_value: this.current_value,
+            levelup_bonus: this.levelup_bonus
         });
     }
 
@@ -90,7 +94,8 @@ export class Attribute extends Trait {
         attr.racial_bonus = x.racial_bonus;
         attr.class_bonus = x.class_bonus;
         attr.start_value = x.start_value;
-        attr.current_value = x.current_value
+        attr.current_value = x.current_value;
+        attr.levelup_bonus = x.levelup_bonus;
         return attr;
     }
 }
@@ -98,8 +103,7 @@ export class Attribute extends Trait {
 export class Skill extends Trait {
     category = "";
     get value(): number {
-        let effective = this.upgraded_value + this.class_bonus + this.racial_bonus;
-        return Math.max(Math.min(effective, this.cap), 1);
+        return Math.min(this.upgraded_value + 1, this.cap);
     }
 
     constructor(name: string, category: string) {

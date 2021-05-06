@@ -1,4 +1,7 @@
+import {race_list} from "./races";
+
 export const class_freelancer = {
+    'class_name': 'Freelancer',
     'level_bonus': {
         'HP': 4,
         'MP': 4
@@ -63,6 +66,7 @@ export const class_freelancer = {
     }
 }
 export const class_fighter = {
+    'class_name': 'Fighter',
     'level_bonus': {
         'HP': 9,
         'MP': 2
@@ -97,6 +101,7 @@ export const class_fighter = {
     }
 }
 export const class_mage = {
+    'class_name': 'Mage',
     'level_bonus': {
         'HP': 4,
         'MP': 7,
@@ -132,6 +137,7 @@ export const class_mage = {
     }
 }
 export const class_ranger = {
+    'class_name': 'Ranger',
     'level_bonus': {
         'HP': 7,
         'MP': 3
@@ -172,6 +178,7 @@ export const class_ranger = {
     }
 }
 export const class_pugilist = {
+    'class_name': 'Pugilist',
     'level_bonus': {
         'HP': 8,
         'MP': 4
@@ -218,6 +225,7 @@ export const class_pugilist = {
     }
 }
 export const class_curate = {
+    'class_name': 'Curate',
     'level_bonus': {
         'HP': 4,
         'MP': 6
@@ -254,6 +262,7 @@ export const class_curate = {
     }
 }
 export const class_morpher = {
+    'class_name': 'Morpher',
     'level_bonus': {
         'HP': 7,
         'MP': 3
@@ -289,6 +298,7 @@ export const class_morpher = {
     }
 }
 export const class_thief = {
+    'class_name': 'Thief',
     'level_bonus': {
         'HP': 6,
         'MP': 3
@@ -327,6 +337,7 @@ export const class_thief = {
     }
 }
 export const class_tinker = {
+    'class_name': 'Tinker',
     'level_bonus': {
         'HP': 6,
         'MP': 4
@@ -360,6 +371,7 @@ export const class_tinker = {
     }
 }
 export const class_herbologist = {
+    'class_name': 'Herbologist',
     'level_bonus': {
         'HP': 5,
         'MP': 5
@@ -390,6 +402,7 @@ export const class_herbologist = {
     }
 }
 export const class_paladin = {
+    'class_name': 'Paladin',
     'level_bonus': {
         'HP': 10,
         'MP': 6
@@ -427,6 +440,7 @@ export const class_paladin = {
     }
 }
 export const class_hunter = {
+    'class_name': 'Hunter',
     'level_bonus': {
         'HP': 11,
         'MP': 4
@@ -463,6 +477,7 @@ export const class_hunter = {
     }
 }
 export const class_cavalier = {
+    'class_name': 'Cavalier',
     'level_bonus': {
         'HP': 12,
         'MP': 3
@@ -505,6 +520,7 @@ export const class_cavalier = {
     }
 }
 export const class_engineer = {
+    'class_name': 'Engineer',
     'level_bonus': {
         'HP': 9,
         'MP': 7,
@@ -541,6 +557,7 @@ export const class_engineer = {
     }
 }
 export const class_magus = {
+    'class_name': 'Magus',
     'level_bonus': {
         'HP': 8,
         'MP': 8
@@ -578,6 +595,7 @@ export const class_magus = {
     }
 }
 export const class_chef = {
+    'class_name': 'Chef',
     'level_bonus': {
         'HP': 6,
         'MP': 9
@@ -619,6 +637,7 @@ export const class_chef = {
     }
 }
 export const class_swashbuckler = {
+    'class_name': 'Swashbuckler',
     'level_bonus': {
         'HP': 9,
         'MP': 6
@@ -655,6 +674,7 @@ export const class_swashbuckler = {
     }
 }
 export const class_blackbelt = {
+    'class_name': 'Blackbelt',
     'level_bonus': {
         'HP': 11,
         'MP': 5
@@ -690,6 +710,7 @@ export const class_blackbelt = {
     }
 }
 export const class_rogue = {
+    'class_name': 'Rogue',
     'level_bonus': {
         'HP': 9,
         'MP': 6
@@ -732,6 +753,7 @@ export const class_rogue = {
     }
 }
 export const class_fortuneteller = {
+    'class_name': 'Fortune Teller',
     'level_bonus': {
         'HP': 6,
         'MP': 10,
@@ -763,6 +785,7 @@ export const class_fortuneteller = {
     }
 }
 export const class_defender = {
+    'class_name': 'Defender',
     'level_bonus': {
         'HP': 14,
         'MP': 2
@@ -794,6 +817,7 @@ export const class_defender = {
     }
 }
 export const class_sorcerer = {
+    'class_name': 'Sorcerer',
     'level_bonus': {
         'HP': 7,
         'MP': 9
@@ -829,6 +853,7 @@ export const class_sorcerer = {
     }
 }
 export const class_warrior = {
+    'class_name': 'Warrior',
     'level_bonus': {
         'HP': 18,
         'MP': 7
@@ -873,6 +898,7 @@ export const class_warrior = {
     }
 }
 export const class_warlock = {
+    'class_name': 'Warlock',
     'level_bonus': {
         'HP': 10,
         'MP': 16
@@ -907,6 +933,7 @@ export const class_warlock = {
     }
 }
 export const class_spy = {
+    'class_name': 'Spy',
     'level_bonus': {
         'HP': 15,
         'MP': 9
@@ -944,6 +971,7 @@ export const class_spy = {
     }
 }
 export const class_sage = {
+    'class_name': 'Sage',
     'level_bonus': {
         'HP': 11,
         'MP': 14
@@ -982,6 +1010,7 @@ export const class_sage = {
     }
 }
 export const class_necromancer = {
+    'class_name': 'Necromancer',
     'level_bonus': {
         'HP': 9,
         'MP': 16
@@ -1010,6 +1039,7 @@ export const class_necromancer = {
     }
 }
 export const class_druid = {
+    'class_name': 'Druid',
     'level_bonus': {
         'HP': 14,
         'MP': 12
@@ -1043,3 +1073,42 @@ export const class_druid = {
         'Firearms': -15,
     }
 }
+
+export const class_list = [
+    class_freelancer,
+    class_fighter,
+    class_mage,
+    class_ranger,
+    class_pugilist,
+    class_curate,
+    class_morpher,
+    class_thief,
+    class_tinker,
+    class_herbologist,
+    class_paladin,
+    class_hunter,
+    class_cavalier,
+    class_engineer,
+    class_magus,
+    class_chef,
+    class_swashbuckler,
+    class_blackbelt,
+    class_rogue,
+    class_fortuneteller,
+    class_defender,
+    class_sorcerer,
+    class_warrior,
+    class_warlock,
+    class_spy,
+    class_sage,
+    class_necromancer,
+    class_druid
+]
+
+let _classes = {}
+
+for (const cls of class_list) {
+    _classes[cls.class_name] = cls;
+}
+
+export const classes = _classes;

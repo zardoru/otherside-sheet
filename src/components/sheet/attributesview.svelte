@@ -8,13 +8,13 @@
 <div class="attr-grid">
     <b></b>
     <b></b>
-    <b>current</b>
     <b>upgrade</b>
+    <b>current</b>
     <b>max</b>
     <b></b>
     <b></b>
-    <b>current</b>
     <b>upgrade</b>
+    <b>current</b>
     <b>max</b>
     {#each attributes as attr}
         <div class="fieldname"> <b>{attr.name}</b> </div>
@@ -24,24 +24,26 @@
         {#if current_attributes.has(attr.short_name)}
             <input type="number"
                    class="smaller"
-                   bind:value={attr.capped_current_value}
+                   bind:value={attr.upgraded_value}
+                   min=0>
+
+            <input type="number"
+                   class="smaller"
+                   bind:value={attr.temporal_current_value}
                    max={attr.temporal_cap}
                    class:enhanced_attr={attr.isPositiveBonus}
                    class:worsened_attr={attr.isNegativeBonus}>
-                <input type="number"
-                       class="smaller"
-                       bind:value={attr.upgraded_value}
-                       min=0>
 
             <div class="attr"
                  class:enhanced_attr={attr.isPositiveBonus}
                  class:worsened_attr={attr.isNegativeBonus}>{attr.temporal_cap}</div>
         {:else}
-            <div class="attr">{attr.value}</div>
             <input type="number"
                    class="smaller"
                    bind:value={attr.upgraded_value}
                    min=1>
+
+            <div class="attr">{attr.value}</div>
 
             <div class="attr"
                  class:enhanced_attr={attr.isPositiveBonus}

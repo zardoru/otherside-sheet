@@ -3,6 +3,7 @@
     import AttrView from './sheet/attributesview.svelte';
     import SkillView from './sheet/skillsview.svelte';
     import ItemView from './sheet/itemview.svelte';
+    const {class_list} = require("./classes/data/classes");
 
     export let char_data;
     export let discord_url: string;
@@ -50,7 +51,12 @@
         <div class="row">
             <div class="textin" style="flex-grow: 7">
                 <div class="fieldname textname"> <b> class </b></div>
-                <input type="text" bind:value={char_data.char_class}>
+                <!-- this onchange hack is ugly but hey. it works! class level gets updated properly. -->
+                <select bind:value={char_data.char_class} on:change={() => {char_data.class_level = char_data.class_level} }>
+                    {#each class_list as cls}
+                        <option value={cls.class_name}>{cls.class_name}</option>
+                    {/each}
+                </select>
             </div>
             <div class="textin">
                 <div class="fieldname textname"> <b> level </b></div>

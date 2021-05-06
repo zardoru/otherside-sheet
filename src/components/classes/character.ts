@@ -2,6 +2,7 @@ import {Attribute, Skill} from "./attribute";
 import {categorized_skill_list, skill_list} from "./data/skills";
 import {attribute_start_value, attributes} from "./data/attributes";
 import {races} from "./data/races";
+import {classes} from "./data/classes";
 
 export class Equipment {
     head = null;
@@ -96,8 +97,9 @@ export class Character {
     hand = '';
     equipment = new Equipment();
     gold = 0;
-    char_class = '';
-    class_level = 0;
+    _char_class = 'Freelancer';
+    _class_level = 1;
+    other_class_level: {[key: string]: number} = {}
 
     get race(): string {
         return this._race;
@@ -110,17 +112,54 @@ export class Character {
         for (let skill of this.skills) {
             skill.racial_bonus = cur_race.skill_bonus[skill.name] || cur_race.weapon_bonus[skill.name] || 0;
         }
-        // this.skills = this.skills; // force svelte update lol
 
         for (let attribute of this.attributes) {
             attribute.racial_bonus = cur_race.attribute_bonus[attribute.short_name] || 0;
         }
     }
 
+    get class_level() {
+        return this._class_level;
+    }
+
+    set class_level(val) {
+        this._class_level = val;
+
+        const cur_class = classes[this._char_class];
+        for (let attribute of this.attributes) {
+            let base_bonus = cur_class.level_bonus[attribute.short_name];
+            attribute.levelup_bonus = (base_bonus || 0) * (this._class_level - 1);
+        }
+    }
+
+    get char_class() {
+        return this._char_class;
+    }
+
+    set char_class(value) {
+        // save level of current class
+        this.other_class_level[this._char_class] = this.class_level;
+
+        // change class
+        this._char_class = value;
+
+        // restore previous level value
+        this.class_level = this.other_class_level[this._char_class] || 1;
+
+        const cur_class = classes[this._char_class];
+        for (let skill of this.skills) {
+            skill.class_bonus = cur_class.skill_bonus[skill.name] || cur_class.weapon_bonus[skill.name] || 0;
+        }
+
+        for (let attribute of this.attributes) {
+            attribute.class_bonus = cur_class.stat_bonus[attribute.short_name] || 0;
+        }
+    }
+
     as_json(): any {
         return {
             name: this.name,
-            race: this._race,
+            race: this.race,
             subrace: this.subrace,
             save_point: this.save_point,
             player: this.player,
@@ -134,7 +173,8 @@ export class Character {
             class_level: this.class_level,
             height: this.height,
             color: this.color,
-            hand: this.hand
+            hand: this.hand,
+            other_class_level: this.other_class_level
         };
     }
 
@@ -155,6 +195,7 @@ export class Character {
         char.height = json.height;
         char.color = json.color;
         char.hand = json.hand;
+        char.other_class_level = json.other_class_level;
 
         return char
     }
