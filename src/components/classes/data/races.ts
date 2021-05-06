@@ -55,8 +55,8 @@ export const race_human = {
         'Fists': 0,
         'Thrown Weapons': 0,
         'Archery': 0,
-        'Staves (White Magic)': 0,
-        'Wands (Black Magic)': 0
+        'Staves': 0,
+        'Wands': 0
     }
 }
 export const race_elf = {
