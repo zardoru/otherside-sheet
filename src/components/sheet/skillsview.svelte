@@ -35,11 +35,10 @@
         })
     }
 
-    // TODO
     function rollGeneric(skill: Skill) {
         return () => dispatch('roll', {
             skill_name: skill.name,
-            roll_target: 50 + skill.value,
+            roll_target: 50 + Math.floor(skill.value / 4),
             roll_value: 1 + Math.round(Math.random() * 99)
         })
     }
