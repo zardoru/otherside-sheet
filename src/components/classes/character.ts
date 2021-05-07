@@ -1,6 +1,6 @@
 import {Attribute, Skill} from "./attribute";
 import {categorized_skill_list, skill_list} from "./data/skills";
-import {attribute_start_value, attributes} from "./data/attributes";
+import {attribute_start_value, attributes, current_attributes} from "./data/attributes";
 import {races} from "./data/races";
 import {classes} from "./data/classes";
 
@@ -82,6 +82,32 @@ let new_attr = () => Object.keys(attributes).map(key => {
 });
 let new_skills = () => skill_list.map(x => new Skill(x, get_skill_category(x)));
 
+export class Ability {
+    name = ''
+    description = ''
+    cost = ''
+    skill = ''
+
+    as_json() {
+        return {
+            name: this.name,
+            description: this.description,
+            cost: this.cost,
+            skill: this.skill
+        }
+    }
+
+    static from_json(json) {
+        let ret = new Ability();
+        ret.name = json.name;
+        ret.description = json.description;
+        ret.cost = json.cost;
+        ret.skill = json.skill;
+
+        return ret;
+    }
+}
+
 export class Character {
     name = 'character mcdiceface';
     _race = 'Human';
@@ -100,6 +126,8 @@ export class Character {
     _char_class = 'Freelancer';
     _class_level = 1;
     other_class_level: {[key: string]: number} = {}
+    abilities: Array<Ability> = []
+    languages: Array<Skill> = []
 
     get race(): string {
         return this._race;
@@ -124,11 +152,29 @@ export class Character {
 
     set class_level(val) {
         this._class_level = val;
+        this.other_class_level[this._char_class] = val;
 
-        const cur_class = classes[this._char_class];
+        // update all of the attributes
         for (let attribute of this.attributes) {
-            let base_bonus = cur_class.level_bonus[attribute.short_name];
-            attribute.levelup_bonus = (base_bonus || 0) * (this._class_level - 1);
+            if (!current_attributes.has(attribute.short_name)) {
+                // it's not a current attribute, apply only this class's bonuses
+                const cur_class = classes[this._char_class];
+                let base_bonus = cur_class.level_bonus[attribute.short_name];
+                attribute.levelup_bonus = (base_bonus || 0) * (this._class_level - 1);
+            } else {
+                // add up bonuses across classes the character's got leveled up for HP/MP
+                let total_bonus = 0;
+
+                for (let cls in this.other_class_level) {
+                    const cur_class = classes[cls];
+                    const cur_class_level = this.other_class_level[cls];
+                    let this_class_bonus = cur_class.level_bonus[attribute.short_name] * (cur_class_level - 1);
+
+                    total_bonus += this_class_bonus;
+                }
+
+                attribute.levelup_bonus = total_bonus;
+            }
         }
     }
 
@@ -174,7 +220,9 @@ export class Character {
             height: this.height,
             color: this.color,
             hand: this.hand,
-            other_class_level: this.other_class_level
+            other_class_level: this.other_class_level,
+            abilities: this.abilities.map(x => x.as_json()),
+            languages: this.languages.map(x => x.as_json())
         };
     }
 
@@ -196,6 +244,8 @@ export class Character {
         char.color = json.color;
         char.hand = json.hand;
         char.other_class_level = json.other_class_level;
+        char.abilities = json.abilities?.map(x => Ability.from_json(x)) || [];
+        char.languages = json.languages?.map(x => Skill.from_json(x)) || [];
 
         return char
     }

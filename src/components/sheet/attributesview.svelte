@@ -20,7 +20,6 @@
         <div class="fieldname"> <b>{attr.name}</b> </div>
         <div class="fieldname shortname"> <b>{attr.short_name}</b> </div>
 
-
         {#if current_attributes.has(attr.short_name)}
             <input type="number"
                    class="smaller"
@@ -49,16 +48,15 @@
                  class:enhanced_attr={attr.isPositiveBonus}
                  class:worsened_attr={attr.isNegativeBonus}>{attr.cap}</div>
         {/if}
-
-
-
     {/each}
 </div>
 
 <style>
     .attr-grid {
         display: grid;
-        grid-template-columns: 15% 1fr 3fr 2fr 2fr 15% 1fr 3fr 2fr 2fr;
+        grid-template-columns: 15% 5% 10% 10% 10%
+                               15% 5% 10% 10% 10%;
+        grid-row-gap: 10px;
     }
 
     .attr-grid > b {
@@ -68,10 +66,12 @@
 
     .attr-grid > input {
         margin: auto;
+        padding: 0;
+        width: 60%;
     }
 
     .attr {
-        padding-top: 15px;
+        /*padding-top: 15px;*/
         text-align: center;
         margin: auto;
     }

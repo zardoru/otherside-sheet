@@ -3,6 +3,7 @@
     import AttrView from './sheet/attributesview.svelte';
     import SkillView from './sheet/skillsview.svelte';
     import ItemView from './sheet/itemview.svelte';
+    import AbilitiesView from './sheet/abilitiesview'
     const {class_list} = require("./classes/data/classes");
 
     export let char_data;
@@ -58,7 +59,7 @@
                     {/each}
                 </select>
             </div>
-            <div class="textin">
+            <div class="textin" style="flex-grow: 3">
                 <div class="fieldname textname"> <b> level </b></div>
                 <input type="number" bind:value={char_data.class_level}>
             </div>
@@ -68,7 +69,11 @@
         <h1>skills</h1>
         <SkillView bind:skills={char_data.skills} on:roll={rollSkill}/>
     </div>
-    <div style="width: 90%">
+    <div>
+        <h1>abilities</h1>
+        <AbilitiesView bind:skills={char_data.skills} bind:abilities={char_data.abilities} on:roll={rollSkill}/>
+    </div>
+    <div style="grid-column: 1; grid-column-end: span 2; width: 100%">
         <h1>items</h1>
         <ItemView bind:items={char_data.items}/>
     </div>
@@ -87,6 +92,6 @@
 
     .sheet > div {
         justify-self: left;
-        padding: 20px;
+        width: 95%;
     }
 </style>
