@@ -230,6 +230,7 @@ export class Character {
         let char = new Character();
         char.name = json.name;
         char.race = json.race;
+        char.subrace = json.subrace || '';
         char.save_point = json.save_point
         char.player = json.player
         char.attributes = json.attributes.map(x => Attribute.from_json(x));
