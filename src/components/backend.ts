@@ -41,6 +41,14 @@ export class Backend {
     static async Login(name: string, pass: string) {
         return await Parse.User.logIn(name, pass);
     }
+
+    static async Logout() {
+        return await Parse.User.logOut();
+    }
+
+    static async GetCurrentUser() {
+        return await Parse.User.current();
+    }
 }
 
 // const API = 'http://localhost:3000'; /* replaced by webpack */

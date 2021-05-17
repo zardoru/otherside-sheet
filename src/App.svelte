@@ -10,6 +10,11 @@
     let discord_url;
     let current_user = null;
 
+    Backend.GetCurrentUser().then((it) => {
+        current_user = it;
+        if (it) loadCharacter();
+    }).catch(() => {});
+
     async function saveCharacter() {
         const j = char_data.as_json();
         try {
@@ -55,6 +60,11 @@
             alert("failure logging in: " + err);
         }
     }
+
+    async function logout() {
+        await Backend.Logout();
+        current_user = null;
+    }
 </script>
 
 <main>
@@ -64,6 +74,7 @@
             <br>
             <input type="button" value="save" on:click={saveCharacter}>
             <input type="button" value="load" on:click={loadCharacter}>
+            <input type="button" value="log out" on:click={logout}>
         {:else}
             <input type="button" value="login" on:click={openLoginModal}>
         {/if}
