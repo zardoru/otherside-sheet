@@ -8,7 +8,8 @@ const prod = mode === 'production';
 
 module.exports = {
 	entry: {
-		'build/bundle': ['./src/main.ts']
+		'build/bundle': ['./src/main.ts'],
+		'build/gm': ['./src/gmwindow.ts']
 	},
 	resolve: {
 		alias: {

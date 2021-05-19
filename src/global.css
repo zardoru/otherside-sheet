@@ -112,3 +112,29 @@ button:focus {
 .worsened_attr {
 	color: orangered;
 }
+
+.col {
+	display: flex;
+	flex-direction: column;
+}
+
+.char-btn {
+	padding: 0 5px;
+	color: dodgerblue;
+	background-color: transparent;
+	border: none;
+}
+
+/* button */
+.char-btn:hover {
+	background-color: grey;
+	color: white;
+}
+
+.char-btn.selected {
+	background-color: aquamarine;
+}
+
+.char-btn.selected:hover {
+	color: black;
+}

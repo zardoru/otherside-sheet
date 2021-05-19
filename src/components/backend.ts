@@ -8,6 +8,11 @@ Parse.initialize(
     null // no master key
 );
 
+export type CharIdPair = {
+    character: Character,
+    id: any
+};
+
 const PCharsheet = Parse.Object.extend('Charsheet');
 
 export class Backend {
@@ -48,6 +53,58 @@ export class Backend {
 
     static async GetCurrentUser() {
         return await Parse.User.current();
+    }
+
+    static async GetCharacterList(): Promise<Array<CharIdPair>> {
+        const query = new Parse.Query(PCharsheet);
+        return (await query.find()).map(x => {
+            return {
+                character: Character.from_json(x.get("sheetData")), id: x
+            };
+        });
+    }
+
+    static async SaveCharacterGM(charIdPair: CharIdPair): Promise<CharIdPair> {
+        let sheet_row = charIdPair.id;
+        sheet_row.set("sheetData", charIdPair.character.as_json());
+        sheet_row = await sheet_row.save();
+        return {
+            character: Character.from_json(sheet_row.get("sheetData")),
+            id: sheet_row
+        };
+    }
+
+    static async LoadCharacterGM(charIdPair: CharIdPair): Promise<CharIdPair> {
+        let sheet_row = charIdPair.id;
+        sheet_row = await sheet_row.fetch();
+        return {
+            character: Character.from_json(sheet_row.get("sheetData")),
+            id: sheet_row
+        };
+    }
+
+    static GetKey(charIdPair: CharIdPair): any {
+        return charIdPair.id.id;
+    }
+
+    static async ReloadCharacterList(characters_displayed: Array<CharIdPair>): Promise<Array<CharIdPair>> {
+        let ret = [];
+        for (let item of characters_displayed) {
+            let new_item = await this.LoadCharacterGM(item);
+            ret.push(new_item);
+        }
+
+        return Promise.all(ret);
+    }
+
+    static async SaveCharacterList(characters_displayed: Array<CharIdPair>): Promise<Array<CharIdPair>> {
+        let ret = [];
+        for (let item of characters_displayed) {
+            let new_item = await this.SaveCharacterGM(item);
+            ret.push(new_item);
+        }
+
+        return Promise.all(ret);
     }
 }
 

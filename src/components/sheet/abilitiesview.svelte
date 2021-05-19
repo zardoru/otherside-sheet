@@ -24,7 +24,7 @@
         return () => dispatch('roll', {
             skill_name: `${abil.name} (Skill: ${skill.name})`,
             roll_target: 50 + Math.floor(skill.value / 4),
-            roll_value: 1 + Math.round(Math.random() * 99)
+            roll_value: 1 + Math.floor(Math.random() * 100)
         })
     }
 

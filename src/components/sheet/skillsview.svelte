@@ -7,7 +7,7 @@
 
     export let skills: Array<Skill>;
 
-    let current_filter;
+    let current_filter = 'stealth';
 
     let categories = [];
 
@@ -23,7 +23,7 @@
         return () => dispatch('roll', {
             skill_name: skill.name,
             roll_target: 60 + Math.floor(skill.value / 2),
-            roll_value: 1 + Math.round(Math.random() * 99)
+            roll_value: 1 + Math.floor(Math.random() * 100)
         })
     }
 
@@ -31,7 +31,7 @@
         return () => dispatch('roll', {
             skill_name: skill.name,
             roll_target: 50 + Math.floor(skill.value / 4),
-            roll_value: 1 + Math.round(Math.random() * 99)
+            roll_value: 1 + Math.floor(Math.random() * 100)
         })
     }
 
@@ -39,7 +39,7 @@
         return () => dispatch('roll', {
             skill_name: skill.name,
             roll_target: 50 + Math.floor(skill.value / 4),
-            roll_value: 1 + Math.round(Math.random() * 99)
+            roll_value: 1 + Math.floor(Math.random() * 100)
         })
     }
 </script>
@@ -70,7 +70,7 @@
             <input type="number" class="smaller" bind:value={skill.upgraded_value}>
             <div class="fieldname"> {skill.value} </div>
             <div class="fieldname"
-                 class:cap={skill.cap == 100}
+                 class:cap={skill.cap === 100}
                  class:positive_cap={skill.cap > 100}
                  class:negative_cap={skill.cap < 100}> {skill.cap} </div>
             {#if skill.category === "weapons"}
